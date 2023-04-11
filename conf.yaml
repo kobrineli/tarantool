@@ -1,0 +1,33 @@
+---
+config:
+  version: 0.0.1
+credentials:
+  user:
+    passwd:
+      plain: password
+    grant: super
+log:
+  level: verbose
+  dest: log_$instance_name.txt
+process:
+  background: true
+replication:
+  skip_conflict: true
+paths:
+  work_dir: data_$instance_name
+  pid_file: pid_$instance_name
+groups:
+  greece:
+    replicasets:
+      olympia:
+        leader: zeus
+        instances:
+          zeus:
+            iproto:
+              listen: "127.0.0.1:3301"
+          hermes:
+            iproto:
+              listen: "127.0.0.1:3302"
+          apollo:
+            iproto:
+              listen: "127.0.0.1:3303"
