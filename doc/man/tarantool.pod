@@ -104,6 +104,18 @@ name:
 
 =over
 
+=item -c, --config
+
+Set a path to a config file.
+
+=item -n, --name
+
+Set an instance name.
+
+=item -s, --script
+
+Set a path to a Lua script file.
+
 =item -h, --help
 
 Display the help screen and exit.
