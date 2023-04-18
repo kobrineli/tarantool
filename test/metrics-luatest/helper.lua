@@ -20,7 +20,7 @@ rock_utils.assert_builtin('metrics')
 -- Can't just require luatest internals since the function is not exposed.
 
 -- Returns list of all nested files within given path.
--- As fio.glob does not support `**/*` this method adds `/*` to path and glog it
+-- As fio.glob does not support `**/*` this method adds `/*` to path and glob it
 -- until result is empty.
 local function glob_recursive(path)
     local pattern = path
@@ -35,7 +35,7 @@ local function glob_recursive(path)
     return result
 end
 
--- If directory is given then it's scanned recursievly for files
+-- If directory is given then it's scanned recursively for files
 -- ending with `_test.lua`.
 -- If `.lua` file is given then it's used as is.
 -- Resulting list of files is mapped to lua's module names.
