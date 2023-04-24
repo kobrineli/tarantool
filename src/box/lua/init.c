@@ -70,39 +70,28 @@
 #include "box/lua/watcher.h"
 #include "box/lua/iproto.h"
 
+#if ENABLE_AUDIT_LOG
+#include "lua/audit_log_impl.h"
+#endif
+#if ENABLE_FLIGHT_RECORDER
+#include "lua/flight_recorder_impl.h"
+#endif
+#if ENABLE_READ_VIEW
+#include "lua/read_view_impl.h"
+#endif
+#if ENABLE_SECURITY
+#include "lua/security_impl.h"
+#endif
+#if ENABLE_SPACE_UPGRADE
+#include "lua/space_upgrade_impl.h"
+#endif
+#if ENABLE_WAL_EXT
+#include "lua/wal_ext_impl.h"
+#endif
+
 #include "mpstream/mpstream.h"
 
 static uint32_t CTID_STRUCT_TXN_SAVEPOINT_PTR = 0;
-
-#if ENABLE_SPACE_UPGRADE
-void
-box_lua_space_upgrade_init(struct lua_State *L);
-#endif
-
-#if ENABLE_AUDIT_LOG
-void
-box_lua_audit_init(struct lua_State *L);
-#endif
-
-#if ENABLE_WAL_EXT
-void
-box_lua_wal_ext_init(struct lua_State *L);
-#endif
-
-#if ENABLE_READ_VIEW
-void
-box_lua_read_view_init(struct lua_State *L);
-#endif
-
-#ifdef ENABLE_SECURITY
-void
-box_lua_security_init(struct lua_State *L);
-#endif
-
-#if ENABLE_FLIGHT_RECORDER
-void
-box_lua_flightrec_init(struct lua_State *L);
-#endif
 
 extern char session_lua[],
 	tuple_lua[],
@@ -112,21 +101,6 @@ extern char session_lua[],
 	xlog_lua[],
 #if ENABLE_FEEDBACK_DAEMON
 	feedback_daemon_lua[],
-#endif
-#if ENABLE_SPACE_UPGRADE
-	space_upgrade_lua[],
-#endif
-#if ENABLE_AUDIT_LOG
-	audit_lua[],
-#endif
-#if ENABLE_FLIGHT_RECORDER
-	flightrec_lua[],
-#endif
-#if ENABLE_READ_VIEW
-	read_view_lua[],
-#endif
-#if ENABLE_SECURITY
-	security_lua[],
 #endif
 	net_box_lua[],
 	upgrade_lua[],
@@ -204,24 +178,24 @@ static const char *lua_sources[] = {
 	 */
 	"box/feedback_daemon", NULL, feedback_daemon_lua,
 #endif
-#if ENABLE_SPACE_UPGRADE
 	/*
 	 * Must be loaded after schema_lua, because it redefines
 	 * box.schema.space.upgrade.
 	 */
-	"box/space_upgrade", NULL, space_upgrade_lua,
+#if ENABLE_SPACE_UPGRADE
+	SPACE_UPGRADE_SOURCES,
 #endif
 #if ENABLE_AUDIT_LOG
-	"box/audit", "audit", audit_lua,
+	AUDIT_LOG_SOURCES,
 #endif
 #if ENABLE_FLIGHT_RECORDER
-	"box/flightrec", "flightrec", flightrec_lua,
+	FLIGHT_RECORDER_SOURCES,
 #endif
 #if ENABLE_READ_VIEW
-	"box/read_view", NULL, read_view_lua,
+	READ_VEIW_SOURCES,
 #endif
 #if ENABLE_SECURITY
-	"box/security", NULL, security_lua,
+	SECURITY_SOURCES,
 #endif
 	"box/xlog", "xlog", xlog_lua,
 	"box/upgrade", NULL, upgrade_lua,
