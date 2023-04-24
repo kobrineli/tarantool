@@ -2,17 +2,6 @@ name: fuzzing
 
 on:
   push:
-    branches:
-      - 'master'
-      - 'release/**'
-      - '[0-9].[0-9]+'
-    tags:
-      - '**'
-    paths:
-      - '.github/workflows/**'
-      - 'src/**'
-      - 'test/fuzz/**'
-      - 'test/static/corpus/**'
   pull_request:
     types: [opened, reopened, synchronize, labeled]
 
