@@ -13,6 +13,7 @@ When no script name is provided, the server responds to:
   -b ...			save or list bytecode
   -d				activate debugging session for 'SCRIPT'
   -i				enter interactive mode after executing 'SCRIPT'
+  -r, --repl			enter interactive mode after executing 'SCRIPT'
   --				stop handling options
   -				execute stdin and stop handling options
 
@@ -34,6 +35,7 @@ When no script name is provided, the server responds to:
   -b ...			save or list bytecode
   -d				activate debugging session for 'SCRIPT'
   -i				enter interactive mode after executing 'SCRIPT'
+  -r, --repl			enter interactive mode after executing 'SCRIPT'
   --				stop handling options
   -				execute stdin and stop handling options
 
