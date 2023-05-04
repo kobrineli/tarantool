@@ -6,7 +6,7 @@ local socket = require('socket')
 local fio = require('fio')
 local uuid = require('uuid')
 local msgpack = require('msgpack')
-test:plan(107)
+test:plan(108)
 
 --------------------------------------------------------------------------------
 -- Invalid values
@@ -220,6 +220,11 @@ test:is(run_script(code), 0, "log_nonblock new value")
 -- gh-3048: box.cfg must not crash on invalid log configuration
 code = [[ box.cfg{ log = '/' } ]]
 test:is(run_script(code), PANIC, 'log is invalid')
+
+-- gh-7389: box.cfg must panic on memtx_memory lesser than 32M
+
+code = [[ box.cfg{ memtx_memory = 33553409 } ]]
+test:is(run_script(code), PANIC, 'panic on memtx_memory < 32M')
 
 -- box.cfg { listen = xx }
 local path = './tarantool.sock'

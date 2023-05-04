@@ -70,6 +70,7 @@ static void
 replica_join_cancel(struct cord *replica_join_cord);
 
 enum {
+	TUPLE_ARENA_SIZE_MIN = 32 * 1024 * 1024,
 	OBJSIZE_MIN = 16,
 	SLAB_SIZE = 16 * 1024 * 1024,
 	MAX_TUPLE_SIZE = 1 * 1024 * 1024,
@@ -1368,6 +1369,10 @@ memtx_engine_new(const char *snap_dirname, bool force_recovery,
 	memtx->gc_fiber = fiber_new_system("memtx.gc", memtx_engine_gc_f);
 	if (memtx->gc_fiber == NULL)
 		goto fail;
+
+	/* Small memtx_memory makes the initialization fail. */
+	if (tuple_arena_max_size < TUPLE_ARENA_SIZE_MIN)
+		panic("memtx_memory must be greater than or equal to 32M.");
 
 	/* Apply lowest allowed objsize bound. */
 	if (objsize_min < OBJSIZE_MIN)
